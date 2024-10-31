@@ -3,12 +3,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "./Auth.module.css";
 
-interface LoginFormInputs {
+interface RegisterFormInputs {
+  username: string;
   email: string;
   password: string;
 }
 
 const schema = yup.object({
+  username: yup.string().required("Username is required"),
   email: yup
     .string()
     .email("Invalid email format")
@@ -19,21 +21,30 @@ const schema = yup.object({
     .required("Password is required"),
 });
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>({
+  } = useForm<RegisterFormInputs>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
+  const onSubmit = (data: RegisterFormInputs) => {
     console.log(data);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.loginForm}>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Username</label>
+        <input
+          {...register("username")}
+          placeholder="Type your username"
+          className={styles.input}
+        />
+        <p className={styles.errorMessage}>{errors.username?.message}</p>
+      </div>
       <div className={styles.formGroup}>
         <label className={styles.label}>Email</label>
         <input
@@ -60,4 +71,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
