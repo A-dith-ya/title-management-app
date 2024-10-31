@@ -47,13 +47,14 @@ const LoginForm = () => {
         <label className={styles.label}>Password</label>
         <input
           {...register("password")}
+          type="password"
           placeholder="Type your password"
           className={styles.input}
         />
         <p className={styles.errorMessage}>{errors.password?.message}</p>
       </div>
       <button type="submit" className={styles.button}>
-        Login
+        Submit
       </button>
     </form>
   );
