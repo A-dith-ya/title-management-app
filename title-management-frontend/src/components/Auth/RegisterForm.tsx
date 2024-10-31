@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "./Auth.module.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import apiService from "../../services/apiService";
 
 interface RegisterFormInputs {
   username: string;
@@ -29,9 +32,16 @@ const RegisterForm = () => {
   } = useForm<RegisterFormInputs>({
     resolver: yupResolver(schema),
   });
+  const navigate = useNavigate();
 
-  const onSubmit = (data: RegisterFormInputs) => {
-    console.log(data);
+  const onSubmit = async (data: RegisterFormInputs) => {
+    try {
+      await apiService.register(data);
+      toast.success("Registration successful!");
+      navigate("/");
+    } catch (error: any) {
+      toast.error(error.message || "Registration failed.");
+    }
   };
 
   return (
@@ -65,7 +75,7 @@ const RegisterForm = () => {
         <p className={styles.errorMessage}>{errors.password?.message}</p>
       </div>
       <button type="submit" className={styles.button}>
-        Submit
+        Register
       </button>
     </form>
   );
