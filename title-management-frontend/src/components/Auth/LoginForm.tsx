@@ -1,6 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
+import { login } from "../../features/auth/authSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import apiService from "../../services/apiService";
 import styles from "./Auth.module.css";
 
 interface LoginFormInputs {
@@ -27,9 +32,18 @@ const LoginForm = () => {
   } = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      const response = await apiService.login(data);
+      dispatch(login(response.token));
+      toast.success("Logged in successfully.");
+      navigate("/dashboard");
+    } catch (error: any) {
+      toast.error(error.message || "Login failed.");
+    }
   };
 
   return (
