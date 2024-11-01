@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AddTitleForm from "../components/Dashboard/AddTitleForm";
 import TitleList from "../components/Dashboard/TitleList";
+import WalletConnect from "../components/Dashboard/WalletConnect";
 import titlesApi from "../services/titlesApi";
 
 interface Title {
@@ -12,6 +13,11 @@ interface Title {
 const Dashboard = () => {
   const [titles, setTitles] = useState<Title[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+
+  const handleMetaMaskConnect = (address: string) => {
+    setWalletAddress(address);
+  };
 
   useEffect(() => {
     const fetchTitles = async () => {
@@ -29,6 +35,9 @@ const Dashboard = () => {
     if (!title.trim()) {
       setError("Title cannot be empty");
       return;
+    } else if (!walletAddress) {
+      setError("Connect to MetaMask to add a title");
+      return;
     }
     try {
       const addedTitle = await titlesApi.createTitle(title);
@@ -42,6 +51,7 @@ const Dashboard = () => {
   return (
     <div className="page-container">
       <h1>Title Dashboard</h1>
+      <WalletConnect onConnect={handleMetaMaskConnect} />
       {error && <p className="error">{error}</p>}
       <AddTitleForm onAddTitle={handleAddTitle} />
       <TitleList titles={titles} />
