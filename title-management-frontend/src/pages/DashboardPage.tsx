@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AddTitleForm from "../components/Dashboard/AddTitleForm";
 import TitleList from "../components/Dashboard/TitleList";
 import WalletConnect from "../components/Dashboard/WalletConnect";
+import LogoutButton from "../components/Dashboard/LogoutButton";
 import titlesApi from "../services/titlesApi";
 
 interface Title {
@@ -50,6 +51,7 @@ const Dashboard = () => {
 
   return (
     <div className="page-container">
+      <LogoutButton />
       <h1>Title Dashboard</h1>
       <WalletConnect onConnect={handleMetaMaskConnect} />
       {error && <p className="error">{error}</p>}
