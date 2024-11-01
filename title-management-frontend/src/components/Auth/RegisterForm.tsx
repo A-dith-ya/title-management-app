@@ -20,8 +20,8 @@ const schema = yup.object({
     .required("Email address is required"),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
 });
 
 const RegisterForm = () => {
