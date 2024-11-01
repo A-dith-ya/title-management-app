@@ -1,50 +1,63 @@
-# React + TypeScript + Vite
+# Title Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Key Features
 
-Currently, two official plugins are available:
+- **Login & Registration**: Users can securely log in or register using their email and password.
+- **JWT Management**: Session management is handled through JSON Web Tokens (JWT), ensuring secure user sessions across the app.
+- **Title Management**: Users can view, add, and delete titles directly from the dashboard.
+- **MetaMask Integration**: Connects with MetaMask via Ethers.js to retrieve the user’s wallet address. Only users with a connected MetaMask wallet can add or delete titles, providing an additional layer of user verification.
+- **Component Testing**: Component (e.g., register form, add title form) is covered by unit tests, ensuring functionality and reliability.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js
+- npm
+- MetaMask (browser extension)
+- MySQL
+- Set up environment variables following the format in .env.example
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository to your local machine:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   ```bash
+   git clone https://github.com/A-dith-ya/title-management-app.git
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Navigate to the project folder and install dependencies for both back-end and front-end:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+   ```bash
+   cd title-management-app
+   npm install
+   cd title-management-frontend/
+   npm install
+   ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+3. Start the Express server from the title-management-app directory:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Start the React server from the title-management-frontend directory:
+
+   ```bash
+   npm run dev
+   ```
+
+## Testing
+
+1. Run the React tests in the title-management-frontend directory:
+   ```bash
+   npm test
+   ```
+
+## Project Structure
+
+- **`title-management-app/`**: The root directory for the backend server (Express).
+- **`title-management-frontend/`**: Contains the React frontend.
+- **`src/components/`**: Holds reusable UI components like `LoginForm`, `RegisterForm`, `TitleList`, and `WalletConnect`.
+- **`src/features/auth/`**: Redux slice and actions for user authentication.
+- **`src/services/`**: API interaction logic for the frontend.
+- **`src/pages/`**: Main app pages such as `DashboardPage`, `LoginPage`, and `RegisterPage`.
+- **`src/tests/`**: Unit tests for components.
